@@ -13,17 +13,6 @@ import { getVisibleExpenses } from './selectors/expenses';
 
 const store = configureStore();
 
-store.dispatch(addExpense({description: "Water Bill", amount: 4500}));
-store.dispatch(addExpense({description: "Gas Bill", createdAt: 100}));
-store.dispatch(addExpense({description: "Rent", amount: 109500}));
-
-let state = store.getState();
-console.log("state", state);
-
-//add expense water bill
-// addexpense gas bill      
-// set text filter bill 
-
 
 import AppRouter from './routers/AppRouter';
 let jsx = (
