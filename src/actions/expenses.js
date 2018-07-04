@@ -21,6 +21,20 @@ const startSetExpenses = () => {
     }
 };
 
+const startRemoveExpense  = (expense) => {
+    let promise = database.ref('expenses').child(expense.id).remove()
+        .then(() => { 
+            dispatch(removeExpense(expense));
+        })
+        .catch((ex) => {
+            console.log("error", ex);
+        });
+        
+    return (dispatch) => {
+        return promise;
+    }
+};
+
 const addExpense = (expense) => ({
     type: 'ADD_EXPENSE',
     expense
@@ -50,7 +64,7 @@ const editExpense = (id, updates) =>({
 
 export {
     startAddExpense,
-    removeExpense,
+    startRemoveExpense,
     editExpense,
     startSetExpenses
 }
