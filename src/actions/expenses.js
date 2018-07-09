@@ -29,7 +29,7 @@ const startRemoveExpense  = (expense) => {
         .catch((ex) => {
             console.log("error", ex);
         });
-        
+
     return (dispatch) => {
         return promise;
     }
@@ -56,6 +56,14 @@ const removeExpense = ({ id } = {}) => ({
     expense: { id }
 })
 
+const startEditExpense = (id, updates) => {
+    return (dispatch) => {        
+        database.ref('expenses').child(id).set(updates)
+                .then((ref) => { dispatch(editExpense(id, updates)) })
+                .catch((ex) => {console.log("error", ex) });
+    }    
+}
+
 const editExpense = (id, updates) =>({
     type: 'EDIT_EXPENSE',
     id,
@@ -65,6 +73,7 @@ const editExpense = (id, updates) =>({
 export {
     startAddExpense,
     startRemoveExpense,
+    startEditExpense,
     editExpense,
     startSetExpenses
 }

@@ -15,6 +15,7 @@ const config = {
 firebase.initializeApp(config);
 
 const database = firebase.database();
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
 
 // // database.ref('attributes').remove()
@@ -103,4 +104,4 @@ const database = firebase.database();
 
 
 
-export  { firebase, database as default };
+export  { firebase, googleAuthProvider, database as default };

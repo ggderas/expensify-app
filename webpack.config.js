@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const DotEnv  = require('dotenv');
 
-process.env.NODE_ENV = process.env.NODE_ENV || "test"; 
+process.env.NODE_ENV = process.env.NODE_ENV || "development "; 
 
 console.log("process.env.NODE_ENV ", process.env.NODE_ENV );
 
