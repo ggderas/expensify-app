@@ -9,29 +9,31 @@ const setExpenses = (expenses) => {
 };
 
 const startSetExpenses = () => {
-    return (dispatch) => {
-        return database.ref('expenses').once('value', (snapshot) => {
-            let result = [];
-            snapshot.forEach((childSnap) => {
-                result.push({ id: childSnap.key, ... childSnap.val()})
-            });
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
 
-            dispatch(setExpenses(result));
+        return database.ref(`users/${uid}/expenses`).once('value', (snapshot) => {
+        let result = [];
+        snapshot.forEach((childSnap) => {
+            result.push({ id: childSnap.key, ... childSnap.val()})
+        });
+
+        dispatch(setExpenses(result));
         })        
     }
 };
 
 const startRemoveExpense  = (expense) => {
-    let promise = database.ref('expenses').child(expense.id).remove()
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
+
+        return database.ref(`users/${uid}/expenses`).child(expense.id).remove()
         .then(() => { 
             dispatch(removeExpense(expense));
         })
         .catch((ex) => {
             console.log("error", ex);
-        });
-
-    return (dispatch) => {
-        return promise;
+        });        
     }
 };
 
@@ -41,11 +43,13 @@ const addExpense = (expense) => ({
 })
 
 const startAddExpense = (expenseData = {}) => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
+
         const { description = "", note = "", amount = 0, createdAt = 0 } = expenseData;
         const expense = { description, note, amount, createdAt };
         
-        database.ref('expenses').push(expense)
+        database.ref(`users/${uid}/expenses`).push(expense)
                 .then((ref) => { dispatch(addExpense({ id: ref.key, ... expense})) })
                 .catch(() => { });
     }
@@ -57,10 +61,12 @@ const removeExpense = ({ id } = {}) => ({
 })
 
 const startEditExpense = (id, updates) => {
-    return (dispatch) => {        
-        database.ref('expenses').child(id).set(updates)
+    return (dispatch, getState) => {        
+        const uid = getState().auth.uid;
+
+        database.ref(`users/${uid}/expenses`).child(id).set(updates)
                 .then((ref) => { dispatch(editExpense(id, updates)) })
-                .catch((ex) => {console.log("error", ex) });
+                .catch((ex) => { console.log("error", ex) });
     }    
 }
 

@@ -72,7 +72,7 @@ export default class ExpenseForm extends React.Component{
         
     }
 
-    
+    isNew() {  return !this.props.expense; }
 
 
     render(){
@@ -97,7 +97,7 @@ export default class ExpenseForm extends React.Component{
 
                     <textarea value={this.state.note} onChange={this.onNoteChange} placeholder="Add a note for your expense (Optional)"></textarea>
 
-                    <button>Add Expense</button>
+                    <button>{this.isNew() ? "Add" : "Update"} Expense</button>
                 </form>
             </div>            
         )
