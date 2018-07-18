@@ -13,6 +13,7 @@ import { getVisibleExpenses } from './selectors/expenses';
 import { startSetExpenses } from './actions/expenses';
 import { firebase } from './firebase/firebase';
 import { startLogin } from './actions/auth';
+import LoadingPage from './components/LoadingPage';
 
 const store = configureStore();
 
@@ -31,6 +32,8 @@ const renderApp = () => {
         hasRendered = true;
     }
 }
+
+ReactDOM.render(<LoadingPage/>, document.getElementById("app"));
 
 firebase.auth().onAuthStateChanged((user) => {
     console.log("user", user);
