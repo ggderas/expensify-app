@@ -33,6 +33,7 @@ const renderApp = () => {
 }
 
 firebase.auth().onAuthStateChanged((user) => {
+    console.log("user", user);
     if(user){
         store.dispatch(login(user.uid));
         store.dispatch(startSetExpenses()).then(() => {
@@ -47,9 +48,3 @@ firebase.auth().onAuthStateChanged((user) => {
         history.push('/');
     }
 })
-
-
-ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
-store.dispatch(startSetExpenses()).then(() => {
-    ReactDOM.render(jsx, document.getElementById("app"));
-});
